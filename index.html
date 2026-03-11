@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <title>Document</title>
+</head>
+<body x-data="notesApp">
+    <main class="container">
+      <header>
+        <nav>
+          <ul>
+            <li><b>AURABOX</b></li>
+             <li><p><span>Hi,</span> <span x-text="userInfo.name"></span> </p></li>
+          </ul>
+
+          <ul>
+            <li><button @click="activeFormToggler('addNote')">ADD NOTE</button></li>
+            <li><button @click="activeFormToggler('login')">LOGIN</button></li>
+            <li><button @click="activeFormToggler('signup')">SIGN UP</button></li>
+            <li><button @click="logout()" class="contrast outline"> Logout</button></li>
+          </ul>
+        </nav>
+      </header> <hr>
+
+      <section class="forms">
+        <form class="addNote" :class="{ 'activeForm' : activeForm === 'addNote' }">
+          <input type="text" placeholder="Enter Title" x-model="title">
+          <textarea name="" id="" cols="30" rows="3" placeholder="Enter Content" x-model="content"></textarea>
+          <fieldset role="group" class="grid">
+            <p></p>
+            <button type="button" class="secondary" @click="closeForm">Close</button>
+            <button type="submit" @click.prevent="submitNote">ADD</button>
+          </fieldset>
+          <p><b><span x-text="title"></span></b> <span x-text="content"></span></p>
+        </form>
+  
+        <form class="login" :class="{ 'activeForm' : activeForm === 'login' }">
+          <input type="email" placeholder="Enter Email" x-model="loginInfo.email">
+          <input type="password" placeholder="Enter Password" x-model="loginInfo.password">
+          <fieldset role="group" class="grid">
+            <p></p>
+            <button type="button" class="secondary" @click="closeForm">Close</button>
+            <button type="submit" @click.prevent="login()">Login</button>
+          </fieldset>
+          <p><b><span x-text="loginInfo.email"></span></b> <span x-text="loginInfo.password"></span></p>
+        </form>
+  
+        <form class="signup" :class="{ 'activeForm' : activeForm === 'signup' }">
+          <input type="text" placeholder="Enter Name" x-model="title">
+          <input type="email" placeholder="Enter Email" x-model="title">
+          <input type="text" placeholder="Enter Password" x-model="title">
+          <input type="text" placeholder="Confirm Password" x-model="title">
+          
+          <fieldset role="group" class="grid">
+            <p></p>
+            <button type="button" class="secondary" @click="closeForm">Close</button>
+            <button type="submit" @click.prevent="submitNote">ADD</button>
+          </fieldset>
+        </form>
+      </section>
+
+      <ul class="showNotes">
+        <template x-for="note in notes" :key="note.id">
+            <li> <span x-text="note.id"></span>: 
+                <strong x-text="note.title"></strong>
+                <p x-text="note.content"></p>
+                <button class="contrast outline" @click="editNote(note.id)">Edit</button>
+                <button class="contrast outline" @click="deleteNote(note.id)">Delete</button>
+                <hr>
+            </li>
+        </template>
+    </ul>
+
+    </main>
+<script src="/app.js"></script>
+</body>
+</html>
