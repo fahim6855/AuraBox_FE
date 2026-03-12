@@ -1,7 +1,7 @@
 //     "email": "john@example.com",  "password": "123456" github check
 
 
-let baseUrl = 'https://aurabox.up.railway.app/';
+let baseUrl = 'https://aurabox.up.railway.app';
 
 document.addEventListener('alpine:init', () => {
     Alpine.data('notesApp', () => ({
