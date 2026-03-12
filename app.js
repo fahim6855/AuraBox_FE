@@ -60,14 +60,14 @@ document.addEventListener('alpine:init', () => {
         async editNote(id){console.log("Editing initiated for note with id: " + id)},
 
         async deleteNote(id){
-            const res = await fetch(`https://xjdqws-3000.csb.app/delete/${id}`);
+            const res = await fetch(`${baseUrl}/${id}`);
             const status = await res.json();
             console.log(status);
             await this.fetchNotes()
         },
 
         async login(){
-            const response = await fetch('https://xjdqws-3000.csb.app/login', {
+            const response = await fetch('${baseUrl}/login', {
                 method: 'POST',
                 body: JSON.stringify({ email: this.loginInfo.email, password: this.loginInfo.password }),
                 headers: { 'Content-type': 'application/json' }
