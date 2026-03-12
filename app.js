@@ -1,7 +1,7 @@
 //     "email": "john@example.com",  "password": "123456" github check
 
 
-let baseUrl = 'https://xjdqws-3000.csb.app';
+let baseUrl = 'https://aurabox.up.railway.app/';
 
 document.addEventListener('alpine:init', () => {
     Alpine.data('notesApp', () => ({
@@ -27,7 +27,7 @@ document.addEventListener('alpine:init', () => {
             this.loading = true;
             try {
                 // Using JSONPlaceholder as a dummy API
-                const response = await fetch('https://xjdqws-3000.csb.app');
+                const response = await fetch(`${baseUrl}`);
                 data = await response.json();
                 this.notes = data.reverse() ;
             } catch (error) {
