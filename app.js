@@ -40,7 +40,7 @@ document.addEventListener('alpine:init', () => {
         async submitNote() {
             console.log("Submit func called")
     
-            const response = await fetch('https://xjdqws-3000.csb.app/add', {
+            const response = await fetch(`${baseUrl}/add`, {
                 method: 'POST',
                 body: JSON.stringify({ title: this.title, content: this.content, user_id: 2 }),
                 headers: { 'Content-type': 'application/json' }
