@@ -67,7 +67,7 @@ document.addEventListener('alpine:init', () => {
         },
 
         async login(){
-            const response = await fetch('${baseUrl}/login', {
+            const response = await fetch(`${baseUrl}/login`, {
                 method: 'POST',
                 body: JSON.stringify({ email: this.loginInfo.email, password: this.loginInfo.password }),
                 headers: { 'Content-type': 'application/json' }
