@@ -60,9 +60,9 @@ document.addEventListener('alpine:init', () => {
         async editNote(id){console.log("Editing initiated for note with id: " + id)},
 
         async deleteNote(id){
-            const res = await fetch(`${baseUrl}/${id}`);
+            const res = await fetch(`${baseUrl}/delete/${id}`);
             const status = await res.json();
-            console.log(status);
+            console.log(res);
             await this.fetchNotes()
         },
 
