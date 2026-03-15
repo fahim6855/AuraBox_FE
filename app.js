@@ -1,7 +1,7 @@
 //     "email": "john@example.com",  "password": "123456" github check
 
 
-let baseUrl = 'https://aurabox.up.railway.app';
+let baseUrl = 'https://xjdqws-3001.csb.app';
 
 document.addEventListener('alpine:init', () => {
     Alpine.data('notesApp', () => ({
@@ -42,9 +42,12 @@ document.addEventListener('alpine:init', () => {
     
             const response = await fetch(`${baseUrl}/add`, {
                 method: 'POST',
-                body: JSON.stringify({ title: this.title, content: this.content, user_id: 2 }),
-                headers: { 'Content-type': 'application/json' }
-            });
+                body: JSON.stringify({ title: this.title, content: this.content }),
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+              });
     
             const status = await response.json();
             console.log(status);
@@ -60,9 +63,17 @@ document.addEventListener('alpine:init', () => {
         async editNote(id){console.log("Editing initiated for note with id: " + id)},
 
         async deleteNote(id){
-            const res = await fetch(`${baseUrl}/delete/${id}`);
-            const status = await res.json();
-            console.log(res);
+            const res = await fetch(`${baseUrl}/delete/${id}`,{
+                method: 'DELETE',
+                headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}
+            });
+            if (!res.ok){
+                console.error("Failed to delete note", res.status);
+                return
+            }
+
+            const data = await res.json();
+            console.log(data);
             await this.fetchNotes()
         },
 
@@ -98,10 +109,11 @@ document.addEventListener('alpine:init', () => {
         })
         
         const user = await response.json()
-        console.log(user); // "John"
         this.userInfo = user;
         },
+
         logout(){ localStorage.removeItem('token')},
+
     }));
 });
 
