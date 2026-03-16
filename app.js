@@ -12,8 +12,10 @@ document.addEventListener('alpine:init', () => {
         activeForm: "",
         activeFormToggler(formClass){this.activeForm = formClass},
         closeForm(){this.activeForm = ""},
+        signupInfo: {name: "", email: "", password: "", confirmPass: ""},
         loginInfo: {email: "", password: ""},
         userInfo: {},
+        editNote: {id: 0, title : "", content : ""},
 
         // This runs automatically when x-data="notesApp" is initialized
         init(){
@@ -60,7 +62,28 @@ document.addEventListener('alpine:init', () => {
             this.content = "";
         },
 
-        async editNote(id){console.log("Editing initiated for note with id: " + id)},
+        setEditNoteValue(id, title, content){
+            this.activeForm = "editNote";
+            this.editNote.id = id;
+            this.editNote.title = title;
+            this.editNote.content = content;
+        },
+
+        async editNoteFunc(id){
+            console.log(this.editNote.id);
+            const response = await fetch(`${baseUrl}/edit/${this.editNote.id}`, {
+                method: 'POST',
+                body: JSON.stringify({ title: this.editNote.title, content: this.editNote.content }),
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+              });
+              const data = await response.json();
+              console.log(data);
+              this.closeForm()
+              await this.fetchNotes()
+        },
 
         async deleteNote(id){
             const res = await fetch(`${baseUrl}/delete/${id}`,{
@@ -84,7 +107,6 @@ document.addEventListener('alpine:init', () => {
                 headers: { 'Content-type': 'application/json' }
             });
             const data =  await response.json();
-            console.log(data);
             if (data.token) {
                 // 1. Save the token
                 localStorage.setItem('token', data.token)
@@ -110,6 +132,20 @@ document.addEventListener('alpine:init', () => {
         
         const user = await response.json()
         this.userInfo = user;
+        },
+
+        async signup(){
+            if (this.signupInfo.password !== this.signupInfo.confirmPass){
+                alert("Passport Mismatch In confirm field");
+                return
+            }
+            const res = await fetch(`${baseUrl}/signup`,{
+                method: 'POST',
+                headers: { 'Content-type': 'application/json' },
+                body: JSON.stringify({ name: this.signupInfo.name, email: this.signupInfo.email, password: this.signupInfo.password }),
+            });
+            const data = await res.json();
+            console.log(data)
         },
 
         logout(){ localStorage.removeItem('token')},

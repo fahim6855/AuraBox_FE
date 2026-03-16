@@ -50,15 +50,15 @@
         </form>
   
         <form class="signup" :class="{ 'activeForm' : activeForm === 'signup' }">
-          <input type="text" placeholder="Enter Name" x-model="title">
-          <input type="email" placeholder="Enter Email" x-model="title">
-          <input type="text" placeholder="Enter Password" x-model="title">
-          <input type="text" placeholder="Confirm Password" x-model="title">
+          <input type="text" placeholder="Enter Name" x-model="signupInfo.name">
+          <input type="email" placeholder="Enter Email" x-model="signupInfo.email">
+          <input type="text" placeholder="Enter New Password" x-model="signupInfo.password">
+          <input type="text" placeholder="Confirm Password" x-model="signupInfo.confirmPass">
           
           <fieldset role="group" class="grid">
             <p></p>
             <button type="button" class="secondary" @click="closeForm">Close</button>
-            <button type="submit" @click.prevent="submitNote">ADD</button>
+            <button type="submit" @click.prevent="signup">Signup</button>
           </fieldset>
         </form>
       </section>
@@ -68,8 +68,21 @@
             <li> <span x-text="note.id"></span>: 
                 <strong x-text="note.title"></strong>
                 <p x-text="note.content"></p>
-                <button class="contrast outline" @click="editNote(note.id)">Edit</button>
+                <button class="contrast outline" @click="setEditNoteValue(note.id, note.title, note.content)">Edit</button>
                 <button class="contrast outline" @click="deleteNote(note.id)">Delete</button>
+                
+                <form class="editNote" :class="{ 'activeForm' : activeForm === 'editNote' }">
+                  <input type="text" placeholder="Enter Title" x-model="editNote.title">
+                  <textarea name="" id="" cols="30" rows="3" placeholder="Enter Content" x-model="editNote.content"></textarea>
+                  <p><span x-text="editNote.title"></span></p>
+                  <fieldset role="group" class="grid">
+                    <p></p>
+                    <button type="button" class="secondary" @click="closeForm">Close</button>
+                    <button type="submit" @click.prevent="editNoteFunc(note.id)">Confirm Edit</button>
+                  </fieldset>
+                  <p><b><span x-text="title"></span></b> <span x-text="content"></span></p>
+                </form>
+
                 <hr>
             </li>
         </template>
